@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYFOODPREP WEBSITE</title>
+
+  <script type="text/javascript">
+
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function isFilled(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+      if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+          const workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rawData = XLSX.utils.sheet_to_json(firstSheet, {
+            header: 1,
+            blankrows: false,
+            defval: ''
+          });
+          const cleanData = rawData.filter(row => row.some(isFilled));
+          let headerIndex = cleanData.findIndex((row, i) => {
+            const current = row.filter(isFilled).length;
+            const next = cleanData[i + 1]?.filter(isFilled).length || 0;
+            return current >= next;
+          });
+          if (headerIndex === -1 || headerIndex > 25) {
+            headerIndex = 0;
+          }
+          const trimmed = cleanData.slice(headerIndex);
+          const sheet = XLSX.utils.aoa_to_sheet(trimmed);
+          const csv = XLSX.utils.sheet_to_csv(sheet, { header: 1 });
+          return csv;
+        } catch (error) {
+          console.error("Error reading XLSX:", error);
+          return "";
+        }
+      }
+      return gk_fileData[filename] || "";
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
+
+:root {
+  --theme-color: #27ae60; /* Deep green for a fresh vibe */
+  --secondary-color: #000000; /* Black for contrast */
+}
+
+html {
+  font-size: 62.5%
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+body {
+  font-size: 1.6rem;
+  min-height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=1350&q=80'); /* Food background */
+  background-size: cover;
+  background-position: center;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.app {
+  width: 90%;
+  margin: auto;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+@keyframes slideIn {
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+h1 {
+  animation: slideIn 1s ease-out;
+}
