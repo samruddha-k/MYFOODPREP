@@ -1,33 +1,33 @@
-const express = require('express')
-const app = express()
-const connectDB = require('./config/dbConn')
+// server.js
 
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/dbConn'); // MongoDB connection logic
+require('dotenv').config(); // Load .env variables
+
+const app = express();
 const port = process.env.PORT || 4000;
 
-//middlewares
-app.use(express.json())
-const cors = require('cors')
-app.use(cors())
-require('dotenv').config()
-app.use("/image",express.static('uploads'))
+// ✅ Middleware
+app.use(cors());
+app.use(express.json());
+app.use('/image', express.static('uploads'));
 
-connectDB()
+// ✅ Connect to MongoDB
+connectDB(); // defined in ./config/dbConn.js
 
-//routes
-//api endpoints
-app.use('/api/food',require('./routes/foodRouter'))
-app.use('/api/user',require('./routes/userRouter'))
-app.use('/api/cart',require('./routes/cartRouter'))
-app.use('/api/order',require('./routes/orderRouter'))
+// ✅ API Routes
+app.use('/api/food', require('./routes/foodRouter'));
+app.use('/api/user', require('./routes/userRouter'));
+app.use('/api/cart', require('./routes/cartRouter'));
+app.use('/api/order', require('./routes/orderRouter'));
 
+// ✅ Root Route (health check)
+app.get('/', (req, res) => {
+    res.send('✅ API Working');
+});
 
-
-
-
-app.get("/",(req,res)=>{
-    res.send("API Working")
-})
-
-app.listen(port,()=>{
-    console.log(`Server started on http://localhost:${port}`)
-})
+// ✅ Start Server
+app.listen(port, () => {
+    console.log(`🚀 Server running on http://localhost:${port}`);
+});
