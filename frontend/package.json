@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",         // ✅ Required by Render
-    "server": "nodemon server.js"      // ✅ Optional for local dev
+    "start": "node server.js",         
+    "server": "nodemon server.js"      
   },
   "author": "",
   "license": "ISC",
